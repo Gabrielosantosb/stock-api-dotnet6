@@ -16,15 +16,36 @@ namespace stock_api_dotnet.Services
         {
             _context = context;
         }
+        private static IEnumerable<ProductModel> RoundPrices(IEnumerable<ProductModel> products)
+        {
+            return products.Select(product =>{
+                product.Price = RoundPrice(product.Price);
+                return product;
+            });
+        }
 
         public async Task<IEnumerable<ProductModel>> GetProducts()
         {
-            return await _context.Products.Include(p =>p.Category).ToListAsync();
+            var products = await _context.Products
+                       .Include(p => p.Category)
+                        .ToListAsync();
+
+            return RoundPrices(products);
+            
         }
 
         public async Task<ProductModel> GetProduct(int id)
         {
-            return await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Product_id == id);
+
+            if (product != null)
+            {
+                return RoundPrices(new List<ProductModel> { product }).FirstOrDefault();
+            }
+
+            return null;
         }
 
         public async Task<ProductModel> CreateProduct(ProductModel product)
@@ -72,6 +93,11 @@ namespace stock_api_dotnet.Services
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Product_id == id);
+        }
+
+        private static decimal RoundPrice(decimal price)
+        {
+            return decimal.Round(price, 2);
         }
     }
 }
