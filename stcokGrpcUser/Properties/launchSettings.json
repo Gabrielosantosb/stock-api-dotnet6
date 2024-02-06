@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "stcokGrpcUser": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5139;https://localhost:7126",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
