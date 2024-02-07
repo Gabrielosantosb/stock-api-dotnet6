@@ -14,6 +14,12 @@ public class CreateUserService : ICreateUserService
     {
         try
         {
+            //Verificar se email já existe
+            if(_userRepository.ExistsByEmail(createUserModel.Email))
+            {                
+                throw new Exception("E-mail já está em uso.");
+                
+            }
             var uniqueId = GenerateUniqueId();
             var userModel = new UserModel
             {
@@ -27,10 +33,10 @@ public class CreateUserService : ICreateUserService
             
             return createdUser.Id;
         }
-        catch (Exception ex)
-        {
-            throw new Exception("Erro criar usuário", ex);
-        }
+         catch (Exception ex)
+    {
+        throw new Exception($"{ex.Message}", ex);
+    }
     }
     private string GenerateUniqueId()
     {

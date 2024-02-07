@@ -81,6 +81,10 @@ namespace stock_api_dotnet.Repository
             throw new NotImplementedException();
         }
 
+        public bool ExistsByEmail(string email)
+        {
+            return _context.Users.Any(u => u.Email == email);
+        }
         public bool Exists(string id)
         {
             return dataset.Any(p => p.Id == id);

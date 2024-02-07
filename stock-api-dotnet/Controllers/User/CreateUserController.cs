@@ -22,8 +22,7 @@ public class CreateUserController : ControllerBase
         }
         catch (Exception ex)
         {
-
             return BadRequest(new { Status = "Erro ao criar usuário", Message = ex.Message });
-        }     
+        }
     }
 }
