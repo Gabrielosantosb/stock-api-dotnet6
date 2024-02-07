@@ -21,12 +21,15 @@ public class CreateUserService : ICreateUserService
                 
             }
             var uniqueId = GenerateUniqueId();
+            var salt = BCrypt.Net.BCrypt.GenerateSalt(10);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(createUserModel.Password, salt);
             var userModel = new UserModel
             {
                 Id = uniqueId,
                 UserName = createUserModel.UserName,
                 Email = createUserModel.Email,
-                Password = createUserModel.Password
+                Password = hashedPassword
+                //Password = createUserModel.Password
             };
 
             var createdUser = _userRepository.Create(userModel);

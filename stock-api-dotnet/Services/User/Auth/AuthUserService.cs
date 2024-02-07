@@ -15,8 +15,7 @@ public class AuthUserService : IAuthUserService
         var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
         if (user != null)
-        {
-    
+        {            
             bool isPasswordCorrect = VerifyPassword(password, user.Password);
 
             return isPasswordCorrect;
@@ -25,10 +24,8 @@ public class AuthUserService : IAuthUserService
         return false;
     }
 
-    
     private bool VerifyPassword(string enteredPassword, string storedPassword)
-    {
-        
-        return enteredPassword == storedPassword;
+    {        
+        return BCrypt.Net.BCrypt.Verify(enteredPassword, storedPassword);
     }
 }
