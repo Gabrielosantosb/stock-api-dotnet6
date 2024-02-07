@@ -1,32 +1,34 @@
-﻿//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Identity;
-//using stock_api_dotnet.ORM.Models.User;
+﻿using stock_api_dotnet.ORM.Context;
+using stock_api_dotnet.Services.Auth;
 
-//public class AuthService : IAuthService
-//{
-//    private readonly UserManager<UserModel> _userManager;
-//    private readonly SignInManager<UserModel> _signInManager;
+public class AuthUserService : IAuthUserService
+{
+    private readonly StockDbContext _context;
 
-//    public AuthService(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager)
-//    {
-//        _userManager = userManager;
-//        _signInManager = signInManager;
-//    }
+    public AuthUserService(StockDbContext context)
+    {
+        _context = context;
+    }
 
-//    public async Task<string> AuthenticateUser(AuthUserModel loginModel)
-//    {
-//        var user = await _userManager.FindByEmailAsync(loginModel.Email);
+    public async Task<bool> AuthenticateUser(string email, string password)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
-//        if (user != null)
-//        {
-//            var result = await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+        if (user != null)
+        {
+    
+            bool isPasswordCorrect = VerifyPassword(password, user.Password);
 
-//            if (result.Succeeded)
-//            {                
-//                return "Authentication successful";
-//            }
-//        }
+            return isPasswordCorrect;
+        }
 
-//        throw new UnauthorizedAccessException("Invalid email or password");
-//    }
-//}
+        return false;
+    }
+
+    
+    private bool VerifyPassword(string enteredPassword, string storedPassword)
+    {
+        
+        return enteredPassword == storedPassword;
+    }
+}

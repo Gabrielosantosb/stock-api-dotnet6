@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using stock_api_dotnet.ORM.Models.User;
-
-public interface IAuthService
+﻿public interface IAuthUserService
 {
-    //Task<string> AuthenticateUser(AuthUserModel loginModel);
+    Task<bool> AuthenticateUser(string username, string password);
 }

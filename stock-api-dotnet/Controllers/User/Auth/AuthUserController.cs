@@ -1,33 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using stock_api_dotnet.ORM.Models.User;
 
-[Route("api/[controller]")]
 [ApiController]
-public class AuthUserController : ControllerBase
+[Route("api/auth")]
+public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+    private readonly IAuthUserService _authUserService;
 
-    public AuthUserController(IAuthService authService)
+    public AuthController(IAuthUserService authUserService)
     {
-        _authService = authService;
+        _authUserService = authUserService;
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] AuthUserModel loginRequest)
+    {
+        try
+        {
+            bool isAuthenticated = await _authUserService.AuthenticateUser(loginRequest.Email, loginRequest.Password);
+
+            if (isAuthenticated)
+            {                
+                var authToken = GenerateAuthToken();
+                return Ok(new { Status = "Login bem-sucedido", Token = authToken });
+            }
+            else
+            {
+                return Unauthorized(new { Status = "Falha na autenticação", Message = "Credenciais inválidas" });
+            }
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Status = "Erro durante a autenticação", Message = ex.Message });
+        }
+    }
+
+    
+    private string GenerateAuthToken()
+    {
+        // fazer logica geracao de token aqui
+        return "token_gerado";
     }
 }
 
-//    [HttpPost("login")]
-//    public async Task<IActionResult> Login([FromBody] AuthUserModel loginModel)
-//    {
-//        try
-//        {
-//            var result = await _authService.AuthenticateUser(loginModel);
-//            return Ok(new { Status = result });
-//        }
-//        catch (UnauthorizedAccessException ex)
-//        {
-//            return Unauthorized(new { Status = "Authentication failed", Message = ex.Message });
-//        }
-//        catch (Exception ex)
-//        {
-//            return BadRequest(new { Status = "Error authenticating user", Message = ex.Message });
-//        }
-//    }
-//}

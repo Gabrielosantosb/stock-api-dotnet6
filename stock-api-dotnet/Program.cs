@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using stock_api_dotnet.Controllers; 
 using stock_api_dotnet.ORM.Context;
 using stock_api_dotnet.ORM.Models.User;
 using stock_api_dotnet.Repository;
@@ -30,6 +26,9 @@ builder.Services.AddScoped<BaseRepository<UserModel>>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryService>();
 builder.Services.AddScoped<ICreateUserService, CreateUserService>();
+builder.Services.AddScoped<IAuthUserService, AuthUserService>();
+
+
 
 var app = builder.Build();
 
