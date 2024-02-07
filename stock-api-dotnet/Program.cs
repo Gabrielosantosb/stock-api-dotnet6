@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using stock_api_dotnet.Controllers; 
 using stock_api_dotnet.ORM.Context;
+using stock_api_dotnet.ORM.Models.User;
+using stock_api_dotnet.Repository;
 using stock_api_dotnet.Services;
 using stock_api_dotnet.Services.Category;
 
@@ -23,8 +25,11 @@ builder.Services.AddDbContext<StockDbContext>(options =>
 #endregion mysqlConfig
 
 builder.Services.AddControllers();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped<BaseRepository<UserModel>>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryService>();
+builder.Services.AddScoped<ICreateUserService, CreateUserService>();
 
 var app = builder.Build();
 

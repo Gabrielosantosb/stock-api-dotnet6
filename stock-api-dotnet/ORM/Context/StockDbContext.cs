@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using stock_api_dotnet.ORM.Models.Category;
 using stock_api_dotnet.ORM.Models.Product;
+using stock_api_dotnet.ORM.Models.User;
 
 namespace stock_api_dotnet.ORM.Context
 {
@@ -10,6 +11,8 @@ namespace stock_api_dotnet.ORM.Context
         public StockDbContext(DbContextOptions<StockDbContext> options, IConfiguration configuration) : base(options) => _configuration = configuration;
         public DbSet<ProductModel> Products { get; set; }
         public DbSet<CategoryModel> Categories { get; set; }
+
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +33,14 @@ namespace stock_api_dotnet.ORM.Context
                .IsRequired();
 
             #endregion category
+
+            #region user
+            modelBuilder.Entity<UserModel>().HasKey(u => u.Id);
+            modelBuilder.Entity<UserModel>().Property(u => u.UserName).HasMaxLength(255);
+            modelBuilder.Entity<UserModel>().Property(u => u.Email).HasMaxLength(255);
+            modelBuilder.Entity<UserModel>().Property(u => u.Password).HasMaxLength(255);
+            #endregion user
+
 
             //Relacionamento
             modelBuilder.Entity<ProductModel>()
