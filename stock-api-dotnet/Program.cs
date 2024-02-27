@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using stock_api_dotnet.ORM.Context;
+using stock_api_dotnet.ORM.Models.Paciente;
 using stock_api_dotnet.ORM.Models.User;
 using stock_api_dotnet.Repository;
 using stock_api_dotnet.Services;
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<StockDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<BaseRepository<UserModel>>();
+builder.Services.AddScoped<BaseRepository<PacienteModel>>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryService>();
 builder.Services.AddScoped<ICreateUserService, CreateUserService>();
