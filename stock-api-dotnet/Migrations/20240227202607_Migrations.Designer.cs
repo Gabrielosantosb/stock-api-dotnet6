@@ -11,7 +11,7 @@ using stock_api_dotnet.ORM.Context;
 namespace stockapidotnet.Migrations
 {
     [DbContext(typeof(StockDbContext))]
-    [Migration("20240206154626_Migrations")]
+    [Migration("20240227202607_Migrations")]
     partial class Migrations
     {
         /// <inheritdoc />
@@ -69,6 +69,31 @@ namespace stockapidotnet.Migrations
                     b.HasIndex("Category_id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("stock_api_dotnet.ORM.Models.User.UserModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("stock_api_dotnet.ORM.Models.Product.ProductModel", b =>

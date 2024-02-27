@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using stock_api_dotnet.ORM.Context;
 using stock_api_dotnet.ORM.Models.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace stock_api_dotnet.Services
 {

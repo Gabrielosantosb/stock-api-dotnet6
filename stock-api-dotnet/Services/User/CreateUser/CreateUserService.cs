@@ -28,8 +28,7 @@ public class CreateUserService : ICreateUserService
                 Id = uniqueId,
                 UserName = createUserModel.UserName,
                 Email = createUserModel.Email,
-                Password = hashedPassword
-                //Password = createUserModel.Password
+                Password = hashedPassword                
             };
 
             var createdUser = _userRepository.Create(userModel);

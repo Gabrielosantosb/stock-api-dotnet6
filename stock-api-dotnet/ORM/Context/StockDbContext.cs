@@ -35,7 +35,7 @@ namespace stock_api_dotnet.ORM.Context
             #endregion category
 
             #region user
-            modelBuilder.Entity<UserModel>().HasKey(u => u.Id);
+            //modelBuilder.Entity<UserModel>().HasKey(u => u.Id);
             modelBuilder.Entity<UserModel>().Property(u => u.UserName).HasMaxLength(255);
             modelBuilder.Entity<UserModel>().Property(u => u.Email).HasMaxLength(255);
             modelBuilder.Entity<UserModel>().Property(u => u.Password).HasMaxLength(255);
